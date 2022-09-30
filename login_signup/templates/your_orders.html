@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Your Orders -thebookdepot
+{% endblock %}
+
+{% block content %}
+<h3>Your Orders</h3>
+<hr>
+<div class="container">
+    <div class="row">
+		{% for order in orders %}
+      <div class="col-sm-12 col-md-12 col-lg-12 padding_10">
+		<div class="p-3 border bg-light profile_option clickable" onclick="location.href='selected_order/{{order.id}}';">
+			<div style="width: 30%; height: 100%; display: inline-block;">
+				<span class="font_13">Order No:<b>{{order.id}}</b></span>
+				<span class="font_13">Date:<b>{{order.created}}</b></span>
+			</div>
+			<div style="width: 30%; height: 100%; display: inline-block;">
+					<span class="font_13">Total:<b>{{order.total}}</b></span>
+					<span class="font_13"></span>
+			</div>
+			{% if order.delivered == 0 %}
+			<div style="width: 30%; height: 100%; display: inline-block; color:red" class="font_13">Delivered:Not Yet</div>
+			{% else %}
+			<div style="width: 30%; height: 100%; display: inline-block; color:green" class="font_13">
+				<span class="font_13">Delivered</span>
+					<span class="font_13">Date: {{order.delivered_date.date}}</span>
+			</div>
+			{% endif %}
+		</div>
+	  </div>
+	  {% endfor %}
+    </div>
+  </div>
+{% endblock%}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Selected Order -thebookdepot
+{% endblock %}
+
+{% block content %}
+<h3>Order id {{order_id}}</h3>
+<hr>
+<div class="container">
+        <div class="row">
+            {% for order_item in order_items %}
+          <div class="col-sm-12 col-md-12 col-lg-12 padding_10">
+            <div class="p-3 border bg-light profile_option">
+                <div style="width: 30%; height: 100%; display: inline-block;">
+                    <span class="font_13"><b>{{order_item.product}}</b></span>
+                </div>
+                <div style="width: 30%; height: 100%; display: inline-block;">
+                        <span class="font_13">Quantity {{order_item.quantity}} x Price <b>{{order_item.price}}</b></span>
+                        <span class="font_13"></span>
+                </div>
+                
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+{% endblock%}

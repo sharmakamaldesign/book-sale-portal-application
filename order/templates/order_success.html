@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Order status -thebookdepot
+{% endblock %}
+
+{% block content %}
+{% for message in messages %}
+
+<h3 style="color:green; text-align: center">{{message}}</h3>
+{% endfor %}
+
+Click Here for <a href="/">Home Page</a>
+
+
+<br>
+{% endblock%}

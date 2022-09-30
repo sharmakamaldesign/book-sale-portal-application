@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Selected Order - thebookdepot
+{% endblock %}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+ -->
+<h3 style="text-align: center;">Select Address</h3>
+
+{%for address in addresses%}
+<div class="address_box">
+        <ul style="list-style: none;">
+            <li><strong>{{address.fullName}}</strong></li>
+            <li>{{address.streetAddress}}</li>
+            <li>{{address.landmark}}</li>
+            <li>{{address.city}} {{ address.state}}</li>
+            <li>{{address.pincode}}</li>
+            <li>{{address.state}}</li>
+            <li>Phone Number: {{address.mobileNumber}}</li>
+            <li>Country: {{address.country}}</li>
+   
+<form action="{% url 'order:shippingDetails'%}" method="post">
+    {% csrf_token%}
+    {% if type %}
+    <input class="" type="hidden" name="address_id" value="{{address.id}}">
+    <input class="" type="hidden" name="type" value="{{type}}">
+    <!-- <p>CART</p> -->
+    {% else %}
+    <input class="" type="hidden" name="address_id" value="{{address.id}}">
+    <input class="" type="hidden" name="product_id" value="{{product_id}}">
+    <input class="" type="hidden" name="quantity" value="{{quantity}}">
+    <input class="" type="hidden" name="type" value="{{type}}">
+    <!-- <p>PRODUCT</p> -->
+    {% endif %}
+    <button type="submit" class="btn btn-tbd-theme font_13">Deliver to this address</button>
+  </form>
+        </ul>
+    </div>
+    
+    {% endfor %}
+<br>
+
+<div style="border: 1px solid #3a8084; border-radius: 5px;" class="container">
+    
+    <div class="panel-group" id="accordion">
+      
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4  class="panel-title">
+            <a style="text-decoration: none; color:black; font-size: 18px;" data-toggle="collapse" data-parent="#accordion" href="#collapse2"><div style="text-align: center">Add Address</div></a>
+          </h4>
+
+        </div>
+        <div id="collapse2" class="panel-collapse collapse">
+          <div class="panel-body">
+            <form action="{% url 'order:saveAddressAndDeliver' %}" method="post">
+                {% csrf_token%}
+              <div class="form-group">
+                <label for="full_name">Full Name:</label>
+                <input required type="text" class="form-control" id="full_name" placeholder="Full Name" name="full_name">
+              </div>
+              <div class="form-group">
+                <label for="mobile_number">Mobile Number:</label>
+                <input required type="text" class="form-control" id="mobile_number" placeholder="Mobile Number" name="mobile_number">
+              </div>
+              <div class="form-group">
+                <label for="pin_code">Pincode:</label>
+                <input required type="text" class="form-control" id="pin_code" placeholder="Pincode" name="pin_code">
+              </div>
+          
+              <div class="form-group">
+                <label for="street_address">Street Address:</label>
+                <input required type="text" class="form-control" id="street_address" placeholder="Street Address" name="streetAddress">
+              </div>
+              <div class="form-group">
+                <label for="landmark">Landmark:</label>
+                <input type="text" class="form-control" id="landmark" placeholder="Landmark" name="landmark">
+              </div>
+          
+              <div class="form-group">
+                  <label for="city">City:</label>
+                  <input required type="text" class="form-control" id="city" placeholder=" City" name="city">
+                </div>
+          
+                <div class="form-group">
+                  <label for="state">State</label>
+                  <input type="text" class="form-control" id="state" placeholder="State" name="state">
+                </div>
+          
+                <div class="form-group">
+                  <label for="country">Country:</label>
+                  <input type="text" class="form-control" id="country" placeholder="Country" name="country">
+                </div>
+                {% if type %}
+                <input class="" type="hidden" name="type" value="{{type}}">
+                <!-- <p>CART</p> -->
+                {% else %}
+                <input class="" type="hidden" name="product_id" value="{{product_id}}">
+                <input class="" type="hidden" name="quantity" value="{{quantity}}">
+                <input class="" type="hidden" name="type" value="{{type}}">
+                <!-- <p>PRODUCT</p> -->
+                {% endif %}
+          <button type="submit" class="btn btn-tbd-theme">Save and Deliver to this address</button>
+            </form>
+            <br>
+          </div>
+        </div>
+      </div>
+      
+    </div> 
+  </div>
+<br>
+{% endblock%}

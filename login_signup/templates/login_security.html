@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Login & Security -thebookdepot
+{% endblock %}
+
+{% block content %}
+<h4 style="text-align: center;">Login & Security</h4>
+<div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-6 padding_10">
+                <div class="p-3 profile_option_border profile_option clickable" onclick="location.href='change_password/';">Change Password</div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-6 padding_10">
+                <div class="p-3 profile_option_border profile_option clickable" onclick="location.href='login_security/';">Change Info</div>
+          </div>
+          
+         
+        </div>
+      </div>
+      <br>
+{% endblock%}

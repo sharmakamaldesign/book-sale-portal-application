@@ -1,0 +1,107 @@
+{% extends "base.html"%}
+{% load staticfiles %}
+{% block title%}
+    Order Details - thebookdepot
+{% endblock%}
+{% block content%}
+<script type="text/javascript">
+    function cancelFunction() {
+       if (confirm('Are you sure, You want to cancel the order.')) {
+           yourformelement.submit();
+       } else {
+           return false;
+       }
+    }
+
+</script>
+    <div>
+        <div class="text-center">
+            <br>
+            <h1 class="text-center">Order Details</h1>
+            <br>
+            {% if order.delivered == 0 and order.canceled == 0 and order.dispatched == 0 %}
+            <a href="{% url 'order:cancel_order' order.id %}" onclick="return cancelFunction();" class="btn " style="float: right; background-color: #b12704;color: white; margin:10px;">Cancel Order</a>
+            {% endif %}
+            <table class="table table-bordered">
+                <tr>
+                    <td class="text-left" colspan="2">
+                        <b>Order: </b>#{{ order.id }}<br>
+                        <b>Date: </b>{{ order.created|date:"d M Y"}}<br>
+                        <b>Order Total: </b>&#8377;{{order.total}}<br>
+                        {% if order.delivered == 1 %}
+                        <b>Order Status: </b><span style="color: darkgreen"><i class="fas fa-check-double"></i>&nbsp;Complete <span style="font-size: 10px"> {{order.delivered_date.date|date:"d M Y"}}</span></span>
+                        {% elif order.delivered == 0 and order.canceled == 0 and order.dispatched == 0 %}
+                        <b>Order Status: </b><span style="color: blue"><i class="fas fa-book"></i>&nbsp;In Process.</span>
+                        
+                        {% elif order.dispatched == 1 and order.delivered == 0 %}
+                        <b>Order Status: </b><span style="color: teal"><i class="fas fa-check"></i>&nbsp;Dispatched</span>
+                        
+                        {% elif order.canceled == 1 and order.delivered == 0 %}
+                        <b>Order Status: </b><span style="color: #b12704"><i class="fas fa-ban"></i>&nbsp;Canceled <span style="font-size: 10px"> {{order.canceledDate.date|date:"d M Y"}}</span></span>
+                        {% endif %}
+
+                    </td>
+                    <td class="text-left" colspan="2">
+                        <b>Billing Address: </b><br>
+                        {{order.billingName}}<br>
+                        {{order.billingAddress1}}<br>
+                        {{order.billingCity}}<br>
+                        {{order.billingPostcode}}<br>
+                        {{order.billingCountry}}
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Product Description</b></td>
+                    <td><b>Qty</b></td>
+                    <td><b>Unit Price</b></td>
+                    <td><b>Sub-Total</b></td>
+                </tr>
+                {% for item in order_items %}
+                <tr>
+                    <td>{{item.product}}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>&#8377;{{ item.price }}</td>
+                    <td>&#8377;{{item.sub_total}}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-right" colspan="3"><b>Total</b></td>
+                    <td>&#8377;{{order.total}}</td>
+                </tr>
+                <tr>
+                        <td class="text-right" colspan="3"><b>Delivery Charge</b></td>
+                        <td>&#8377;{{order.deliveryCharge}}</td>
+                    </tr>
+                <tr>
+                        <td class="text-right" colspan="3"><b>Total Paid</b></td>
+                        <td>&#8377;{{order.total_paid}}</td>
+                    </tr>
+                <tr>
+                    <td class="text-left" colspan="2">
+                        <b>Shipping Address</b>
+                        <br>
+                        <b>{{order.shippingFullName}}</b><br>
+                        {{order.shippingStreetAddress}}<br>
+                        {{order.shippinglandmark}}<br>
+                        {{order.shippingCity}}<br>
+                        {{order.shippingPinCode}}<br>
+                        {{order.shippingState}}<br>
+                        {{order.shippingCountry}}<br>
+                        Contact No.{{order.shippingMobileNumber}}
+                    </td>
+                    <td class="text-left" colspan="2">
+                        <b>Payment Detail:</b><br>
+                        {% if order.cod == 1 %}
+                        The order #{{order.id}} payment mode is <span style="color: #b12704; font-weight: bold;">COD.</span>
+                        {% else %}
+                        The order #{{order.id}} payment mode is <span style="color: darkgreen; font-weight: bold;">Pre Paid.</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-secondary" onclick="window.print();"><i class="fas fa-print">Print Order</i></button>
+        </div>
+    </div>
+    <br>
+    <br>    
+{% endblock %}

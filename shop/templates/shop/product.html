@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	{{ product.name }} - thebookdepot
+{% endblock %}
+
+{% block content %}
+	<div class="my_prod_row_class">
+		<div class="mx-auto">
+			<p><a href="{% url 'shop:allProdCat' %}">Home</a> | <a href="{{product.category.get_url }}">{{product.category}}</a> | {{product.name}}</p>
+		</div>
+		<div class="container">
+			<br>
+			<div class="row">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+					<div style="min-width: 18rem;">
+						<img src="{{product.image.url}}" alt="{{product.name}}">
+					</div>
+				</div>
+				<div class="col-12 col-sm-12 col-md-12 col-lg-6">
+					<div>
+						<h1 class="my_prod_title">{{product.name}}</h1>
+						<span class="font_14"> <b>MRP:</b><del> &#8377;{{product.mrp}}</del> </span><br>
+                    	<span class="font_14"><b>Discount:</b> {{product.discount}}%</span><br>
+                    	<span style="font-weight: bold; color: #a01818">Price &#8377; {{product.price}}</span>
+                    	<br>
+                    	<br>
+						<p style="color: gray;"><u>Product Description</u></p>
+						<p class="text-justify my_prod_text">{{product.description}}</p>
+						{% if product.stock <= 0 %}
+							<p class="text-justify my_prod_text"><b>Out of Stock</b></p>
+						{% else %}
+							<form style="display: inline;" id="myform" method="post" action="{% url 'order:selectAddress' %}">
+								{% csrf_token %}
+								<select id="quantity_dropdown" name="quantity">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									  </select> Quantity
+									  <br>
+								<br>
+								<input type="hidden" name="product_id" value={{product.id}} />
+								<input type="hidden" name="product_price" value={{product.price}} />
+								<input type="hidden" name="next" value="{{ request.path }}">
+								
+								<button type="submit" class="btn btn-tbd-theme-static">Buy now</button>
+								
+							</form>
+							<a class="btn btn-tbd-theme-static" href="{% url 'cart:add_cart' product.id %}">Add to Cart</a>
+							<!-- <a class="btn btn-secondary buy_now_button" href="{% url 'cart:add_cart' product.id %}">Buy Now</a> -->
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		</div>
+		<!-- <hr> -->
+		<div>
+			<h6><b>Product Details</b></h6>
+			<ul style="list-style: none;">
+				<li class="list_padding"><b>Pages:</b> {{product.pages}}</li>
+				<li class="list_padding"><b>Publisher:</b> {{product.publisher}}</li>
+				<li class="list_padding"><b>Language:</b> {{product.language}}</li>
+				<li class="list_padding"><b>ISBN-10:</b> {{product.isbn_10}}</li>
+				<li class="list_padding"><b>ISBN-13:</b> {{product.isbn_13}}</li>
+				<li class="list_padding"><b>Product Dimensions:</b> {{product.length}} x {{product.width}} x {{product.height}}</li>
+			</ul>
+			
+		</div>
+
+{% endblock %}

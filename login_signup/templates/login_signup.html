@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Login & Signup -thebookdepot
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h3 style="text-align: center;">Login</h3>
+  <form action="" method="post">
+  	{% csrf_token%}
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" style="border:1px solid #3a8084;" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" style="border:1px solid #3a8084;" class="form-control" id="password" placeholder="Enter password" name="password">
+    </div>
+    <div class="form-group form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" type="checkbox" name="remember"> Remember me
+      </label>
+    </div>
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button style="width: 100%" type="submit" class="btn btn-tbd-theme-static">Login</button>
+  </form>
+
+  <a href="{% url 'password_reset' %}" style="color: #3a8084">Forgot Password</a>
+  <div>
+    {% for message in messages %}
+    <p style="color:red">{{message}}<p>
+    {% endfor %}
+  </div>
+  <br>
+  <a style="color: #3a8084" href="{% url 'login_signup:registration'%}">Create a new account.</a>
+</div>
+{% endblock%}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Addresses -thebookdepot
+{% endblock %}
+
+{% block content %}
+<h3 style="text-align: center">All Addresses</h3>
+<div class="container">
+    <a style="text-decoration: none; color:black" href="{% url 'order:addAddress'%}"><div class="address_box add_address_box"><i class="fa fa-plus" aria-hidden="true"></i> Add Address</div></a>
+
+    {% for address in addresses %}
+    <div class="address_box">
+        <ul style="list-style: none;">
+            <li><strong>{{address.fullName}}</strong></li>
+            <li>{{address.streetAddress}}</li>
+            <li>{{address.landmark}}</li>
+            <li>{{address.city}} {{ address.state}}</li>
+            <li>{{address.pincode}}</li>
+            <li>{{address.state}}</li>
+            <li>Phone Number: {{address.mobileNumber}}</li>
+            <li>Country: {{address.country}}</li>
+            
+<form action="{% url 'userinfo:deleteAddress' %}" method="post">
+    {% csrf_token%}
+    <input class="" type="hidden" name="address_id" value="{{address.id}}">
+    <button type="submit" class="btn btn-outline-danger">Delete</button>
+  </form>
+        </ul>
+    </div>
+
+    {%endfor%}
+</div>
+
+{% endblock%}

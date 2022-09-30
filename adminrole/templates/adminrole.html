@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Admin Role - thebookdepot
+{% endblock %}
+{% block content %}
+
+<div>
+        <div class="text-center">
+            <br>
+            <h1 class="text-center my_title">Order History | Admin Role</h1>
+            <br>
+            {% if all_orders %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in all_orders %}
+                    {% if order.order_successful == 1%}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.created|date:"d M Y" }}</td>
+                        <td>{{ order.total_paid }}</td>
+                        {% if order.delivered == 1%}
+                        <td style="color: darkgreen"><i class="fas fa-check"></i>&nbsp;Complete</td>
+                        {% elif order.delivered == 0 and order.canceled == 0 %}
+                        <td style="color:blue"><i class="fa fa-book"></i>&nbsp;In Process</td>
+                        {% elif order.canceled == 1 and order.delivered == 0 %}
+                        <td style="color: #b12704"><i class="fa fa-ban"></i>&nbsp;Canceled <span style="font-size: 10px"> on {{order.canceledDate.date|date:"d M Y"}}</span></td>
+                        {% endif %}
+                        <td><a href="{% url 'adminrole:view_order_adminrole' order.id %}">View Order</a></td>
+                    </tr>
+                    {% endif %}
+
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>You have no placed any order yet.<br><br><a href="{% url 'shop:allProdCat'%}" class="btn btn-secondary">Continue Shopping</a></p>
+
+            {% endif %}
+
+        </div>
+    </div>
+    <br>
+    <br>
+
+{% endblock %}

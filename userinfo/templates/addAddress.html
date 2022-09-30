@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Add Address - thebookdepot
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h3 style="text-align: center;">Add New Address</h3>
+  <form action="" method="post">
+  	{% csrf_token%}
+    <div class="form-group">
+      <label for="full_name">Full Name:</label>
+      <input required type="text" class="form-control" id="full_name" placeholder="Full Name" name="full_name">
+    </div>
+    <div class="form-group">
+      <label for="mobile_number">Mobile Number:</label>
+      <input required type="text" class="form-control" id="mobile_number" placeholder="Mobile Number" name="mobile_number">
+    </div>
+    <div class="form-group">
+      <label for="pin_code">Pincode:</label>
+      <input required type="text" class="form-control" id="pin_code" placeholder="Pincode" name="pin_code">
+    </div>
+
+    <div class="form-group">
+      <label for="street_address">Street Address:</label>
+      <input required type="text" class="form-control" id="street_address" placeholder="Street Address" name="streetAddress">
+    </div>
+    <div class="form-group">
+      <label for="landmark">Landmark:</label>
+      <input type="text" class="form-control" id="landmark" placeholder="Landmark" name="landmark">
+    </div>
+
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input required type="text" class="form-control" id="city" placeholder=" City" name="city">
+      </div>
+
+      <div class="form-group">
+        <label for="state">State</label>
+        <input type="text" class="form-control" id="state" placeholder="State" name="state">
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" class="form-control" id="country" placeholder="Country" name="country">
+      </div>
+<button style="width: 100%" type="submit" class="btn btn-tbd-theme">Add Address</button>
+  </form>
+  <div>
+    {% for message in messages %}
+    <p style="color:red">{{message}}<p>
+    {% endfor %}
+  </div>
+</div>
+<br>
+{% endblock%}

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	test
+{% endblock %}
+
+{% block title %}
+	Shipping Details -thebookdepot
+{% endblock %}
+
+{% block content %}
+<script>
+  var order_enable = false
+  
+  function payment_select(payment_type) {
+    document.getElementById("payment_method").value = payment_type
+    if(payment_type == "cod"){
+      document.getElementById("submit_button").value = "Order Place"
+      console.log("testtesttest")
+    }
+    else{
+      document.getElementById("submit_button").value = "Make Payment"
+    }
+    document.getElementById("submit_button").disabled = false
+    
+  }
+
+</script>
+<br>
+<div>
+
+    <div style="display: inline-block">
+            <h4>Choose your delivery options</h4>
+    </div>
+</div>
+
+<hr>
+
+
+<div class="container-fluid">
+        
+        <div class="row">
+                 
+          <div class="col-lg-6 col-sm-12 ">
+                <span style="font-size: 17px;"><strong>Shipment from thebookdepot.in</strong></span>
+                <br>
+                <span class="font_13" style="color:#888">Deliver to: {{address.fullName}}, {{address.streetAddress}}, {{address.landmark}}, {{address.city}}, {{address.state}}, {{address.pincode}}, {{address.country}}</span>
+                {% if type %}
+                <!-- <script>console.log("test type 1")</script> -->
+                {% for cart_item in products %}
+              <div>
+                    <ul class="font_13">
+                            <li><strong>{{cart_item.product.name}}</strong></li>
+                            <li class="no_bullet"><span style="color: #b12704;">&#8377; {{cart_item.product.price}}</span> <span style="color: #888"> x Quantity: {{cart_item.quantity}}</span></li>
+                            <li class="no_bullet">Paperback-</li>
+                            {% if cart_item.product.stock >= cart_item.quantity%}
+                            <li class="no_bullet"><span style="color: #090;">In stock</span> </li>
+                            {% else %}
+                            <li class="no_bullet"><span style="color: #b12704;">Out of stock</span> </li>
+                            {% endif %}
+                            <li class="no_bullet font_12">Sold by- thebookdepot</li>
+                    
+                        </ul>
+              </div>
+              {% endfor %}
+              {% else%}
+              <!-- <script>console.log("test type 2")</script> -->
+              {% for product in products %}
+              <div>
+                    <ul class="font_13">
+                            <li><strong>{{product.name}}</strong></li>
+                            <li class="no_bullet"><span style="color: #b12704;">&#8377; {{product.price}}</span> <span style="color: #888"> x Quantity: {{quantity}}</span></li>
+                            <li class="no_bullet">Paperback-</li>
+                            {% if product.stock >= quantity %}
+                            <li class="no_bullet"><span style="color: #090;">In stock</span> </li>
+                            {% else %}
+                            <li class="no_bullet"><span style="color: #b12704;">Out of stock</span> </li>
+                            {% endif %}
+                            <li class="no_bullet font_12">Sold by- thebookdepot</li>
+                    
+                        </ul>
+              </div>
+              {% endfor %}
+
+              {% endif %}
+
+                
+            
+          </div>
+          
+          <div class="col-lg-6 col-sm-12">
+                <p style="font-size: 17px;">Choose a Delivery Method</p>
+                <ul style="list-style: none;">
+                <del><li><input disabled  type="radio" name="delivery_option" value="cod" onclick="payment_select(this.value)"><span style="font-size: 14px;">(COD) Cash On delivery</span></li></del>
+                <li><input checked="checked" type="radio" name="delivery_option" value="pay" onclick="payment_select(this.value)"><span style="font-size: 14px;">Pay Now</span></li>
+                
+                <li><span class="font_14"><br>Shipment Speed: <span style="color:#090 ">2-5 Working days.</span></span></li>
+            </ul>
+            </div>
+          
+        </div>
+        <br>
+        
+      </div>
+      <hr>
+      <div>
+         
+      <div>
+          <ul style="list-style: none;">
+          <li><span class="font_13">Total coast: &#8377; {{total}}</span></li>
+          <li><span class="font_13">Shipping charge: &#8377; {{delivery_charge}}</span></li>
+          <li><strong><span class="font_13">Grand Total: &#8377; {{grand_total}} </span></strong></li>
+        </ul>
+      </div>
+      </div>
+            <div>
+                <div style="float:right">
+                    <form action="{% url 'order:orderPlace' %}" method="post" name="order_place_form">
+                        {% csrf_token%}
+                        {% if type %}
+                        <input class="" type="hidden" name="address_id" value="{{address.id}}">
+                        <input class="" type="hidden" name="cart_id" value="{{cart.id}}">
+                        <input class="" type="hidden" name="total" value="{{total}}">
+                        <input class="" type="hidden" name="delivery_charge" value="{{delivery_charge}}">
+                        <input class="" type="hidden" name="grand_total" value="{{grand_total}}">
+                        <input class="" type="hidden" name="type" value="{{type}}">
+                        <input class="" type="hidden" name="payment_method" value="" id="payment_method">
+
+                        {% else %}
+                        <script>console.log("Product form")</script>
+                        <input class="" type="hidden" name="address_id" value="{{address.id}}">
+                        <input class="" type="hidden" name="product_id" value="{{product_id}}">
+                        <input class="" type="hidden" name="quantity" value="{{quantity}}">
+                        <input class="" type="hidden" name="total" value="{{total}}">
+                        <input class="" type="hidden" name="delivery_charge" value="{{delivery_charge}}">
+                        <input class="" type="hidden" name="grand_total" value="{{grand_total}}">
+                        <input class="" type="hidden" name="type" value="{{type}}">
+                        <input class="" type="hidden" name="payment_method" value="" id="payment_method">
+                        {% endif %}
+
+                        <input style="margin-right: 10px;" id="submit_button" class="btn btn-tbd-theme-static" type="submit" value="Order Place" disabled>
+                      </form>
+
+                      <!-- <button id="test" class="btn btn-secondary" onclick="orderPlaceFunction()" disabled>test</button> -->
+
+                 <!-- <a style="float: right;" href="{% url 'order:orderPlace' %}" class="btn btn-secondary my_custom_button">Place Order</a> -->
+               
+            </div>
+                </div>
+                <br>
+            <br>
+<script>
+  payment_select()
+</script>
+{% endblock%}

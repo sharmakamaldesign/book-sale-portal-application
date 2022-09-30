@@ -1,0 +1,74 @@
+{% load staticfiles %}
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="{% block metadescription %}{%endblock%}">
+	<link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+</head>
+<h3 style="color: brown">Hello {{user_name}},</h3>
+<p style="color: black">Thank you for your order. Your estimated delivery date is indicated below. If you would like to view the status of your order or make any changes to it, please visit Your Orders on thebookdepot.in.</p>
+<script>
+  console.log("hello wolrdldsfas")
+</script>
+<hr>
+<table align="center" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+     <td>
+        <div>
+            <ul style="list-style: none;">
+                <li style="color: black">Arriving:</li>
+                <li style="color: #009900">Within 2-5 Working Days.</li>
+            </ul>
+      </div> 
+     </td>
+     <td>
+        <div>
+            <ul style="list-style: none;">
+                <li style="color: black" >Your order will be sent to:</li>
+                <li style="color: black" ><strong>{{address.fullName}}</strong></li>
+                <li style="color: black" ><strong>{{address.streetAddress}}</strong></li>
+                <li style="color: black" ><strong>{{address.landmark}}</strong></li>
+                <li style="color: black" ><strong>{{address.city}}, {{address.state}}, {{address.pincode}}</strong></li>
+                <li style="color: black" ><strong>{{address.country}}</strong></li>
+                <li style="color: black" ><strong>Contact No: {{address.mobileNumber}}</strong></li>
+            </ul>
+            </div>
+       </td>
+    </tr>
+   </table>
+
+<h3 style="color: brown">Order Details</h3>
+<hr>
+<table align="center" cellpadding="0" cellspacing="0" width="100%">
+    {% for item in products %}
+    <tr style="border-bottom: 1px solid black;" >
+     <td style="width: 250px;">
+            <p>{{item.product.name}}</p>
+     </td>
+
+    <td style="text-align: center">
+        
+        <p>{{item.product.description}}</p>
+        <p>Quantity: {{item.quantity}}</p>
+    </td>
+
+    <td style="text-align: center">
+        <p><strong>Rs: {{item.price}} </strong></p>
+    </td>
+    {% endfor %}
+
+   </table>
+   <hr>
+   <div>
+         
+        <div>
+            <ul style="list-style: none;">
+            <li><span class="font_13">Total coast: &#8377; {{total}}</span></li>
+            <li><span class="font_13">Shipping charge: &#8377; {{delivery_charge}}</span></li>
+            <li><strong><span class="font_13">Grand Total: &#8377; {{grand_total}} </span></strong></li>
+          </ul>
+        </div>
+        </div>

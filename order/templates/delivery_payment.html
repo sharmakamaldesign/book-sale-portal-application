@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Delivery payment -thebookdepot
+{% endblock %}
+
+{% block content %}
+<h3 style="text-align: center;">Delivery & paytment Option</h3>
+
+<div class="col-sm-12 col-md-12 col-lg-12 payment_option">Payment Options</div>
+<input type="radio" name="delivery_option" value="COD" checked> Cash On Delivery<br>
+<div class="col-sm-12 col-md-12 col-lg-12 payment_option">Address</div>
+<!-- <a class="btn btn-secondary" href="{% url 'userinfo:addAddress' %}">Add New Address</a> -->
+<div class="address_box">
+        <ul style="list-style: none;">
+            <li><strong>{{address.fullName}}</strong></li>
+            <li>{{address.streetAddress}}</li>
+            <li>{{address.landmark}}</li>
+            <li>{{address.city}} {{ address.state}}</li>
+            <li>{{address.pincode}}</li>
+            <li>{{address.state}}</li>
+            <li>Phone Number: {{address.mobileNumber}}</li>
+            <li>Country: {{address.country}}</li>
+            
+<form action="/userinfo/delete_address/" method="post">
+    {% csrf_token%}
+    <input class="" type="hidden" name="address_id" value="{{address.id}}">
+    <button type="submit" class="btn btn-secondary">Delete</button>
+  </form>
+        </ul>
+	</div>
+
+<!-- product details -->
+
+<div class="jumbotron">
+		<h4>Product Details</h4>
+		<div class="container-fluid">
+				{% for product in products%}
+				<div class="row">
+					
+				  <div class="col-lg-3 col-sm-12 ">
+						
+								<img src="{{product.product.image.url}}" width="100" height="100" alt="{{product.name}}">
+							
+				  </div>
+				  <div class="col-lg-6 col-sm-12">
+						<ul style="list-style: none;">
+								<li><strong>{{product.product.name}}</strong></li>
+								<li>{{product.product.description}}</li>
+								
+								</ul>
+				  </div>
+				  <div class="col-lg-3 col-sm-12">
+						<p>Sed ut perspiciatis...</p>
+					  </div>
+				</div>
+				<br>
+				{% endfor %}
+			  </div>
+	
+	</div>
+{% endblock%}

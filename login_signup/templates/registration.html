@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block metadescription %}
+	{{product.description|truncatewords:155}}
+{% endblock %}
+
+{% block title %}
+	Registration -thebookdepot
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h3 style="text-align: center;">Registration</h3>
+  <form action="" method="post">
+  	{% csrf_token%}
+    <div class="form-group">
+      <label for="first_name">First Name:<span style="color: red">*</span></label>
+      <input required type="text" class="form-control" id="first_name" placeholder="Enter First Name" name="first_name">
+    </div>
+    <div class="form-group">
+      <label for="last_name">Last Name:</label>
+      <input type="text" class="form-control" id="last_name" placeholder="Enter Last Name" name="last_name">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:<span style="color: red">*</span></label>
+      <input required type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+
+    <div class="form-group">
+      <label for="password1">Password:<span style="color: red">*</span></label>
+      <input required type="password" class="form-control" id="password1" placeholder="Enter Password" name="password1">
+    </div>
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password:<span style="color: red">*</span></label>
+      <input required type="password" class="form-control" id="password2" placeholder="Confirm Password" name="password2">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </form>
+  <div>
+    {% for message in messages %}
+    <p style="color:red">{{message}}<p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock%}

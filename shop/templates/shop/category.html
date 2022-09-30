@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% load staticfiles % }
+{% block metadescription %}
+    {% if category %}
+        {{category.description|truncatewords:155}}
+    {% else %}
+        Welcome to the book store where you buy good and awesome books.
+    {% endif%}
+{% endblock %}
+{% block title%}
+    {% if category %}
+        {{category.name}} - Books
+    {% else %}
+        See Our books  Collection - thebookdepot
+    {% endif%}
+{% endblock %}
+
+{% block content %}
+
+    {% if category %}
+        <div class="row my_row_class">
+            <div class=mx-auto>
+                <p><a href="{% url 'shop:allProdCat' %}">Our Product Collection</a> | {{category.name}}</p>
+            </div>
+        </div>
+    {% endif %}
+    <div class="mx-auto">
+    {% if category %}
+           
+    </div>
+    <br>
+    <div>
+        <h1 class="text-center my_title">{{category.name}}</h1>
+        <p class="text-justify">{{category.description}}</p>
+    </div>
+    {% else %}
+        <!-- <img class="my_image my_image_padding" src="{% static 'img/banner.jpg'%}" alt="Perfect Cushion Store"> -->
+
+    <!-- Carousel Start -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'carousel/carousel1.jpg'%}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'carousel/carousel2.jpg'%}" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'carousel/carousel3.jpg'%}" class="d-block w-100" alt="...">
+    </div>
+
+    <div class="carousel-item">
+      <img src="{% static 'carousel/carousel4.jpg'%}" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+
+<!-- Carousel End -->
+
+    <br>
+    <div>
+
+        <h1 class="text-center my_title">Our Books Collection</h1>
+        <p class="text-justify  text-center">Finding the right books for you, can instantly add to the levels of knowledge and sense fo style throughout your future.</strong></p>
+    </div>
+    {% endif %}
+
+    <div class="container">
+        <!-- <div class="row mx-auto"> -->
+            
+            {% for product in products.object_list %}
+            <hr style="border: 1px solid #c5c5c5;">
+                <div class="row">
+                
+                
+                  <div class="col-md-2 col-sm-3 col-4" style="padding: 0">
+                    <!-- <div style="text-align: center;"> -->
+                    <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}" style="width: 100%"></a>
+                    <!-- </div> -->
+                  </div>
+
+                  <div class="col-md-9 col-sm-9 col-8" style="padding:10 0 0 0;">
+                    <a style="color: black" href="{{product.get_url}}"><h6 style="font-weight:bold;">{{product.name}}</h6></a>
+                    <!-- <span style="text-decoration: none;"> {{product.description}}</span><br> -->
+                    <span class="font_14"> <b>MRP:</b><del> &#8377;{{product.mrp}}</del> </span><br>
+                        <span class="font_14"><b>Discount:</b> {{product.discount}}%</span><br>
+                        <span style="font-weight: bold; color: #a01818">Price &#8377; {{product.price}}</span> 
+                  </div>
+                  
+
+                </div>
+            
+                {% endfor %}
+
+
+
+
+            <!-- <div class="my_bottom_margin col-9 col-sm-12 col-md-4 col-md-12 col-lg-4">
+                <div class="card text-center" style="min-width: 18rem;">
+                    <a href="{{product.get_url}}"><img class="card-img-top my_image" src="{{product.image.url}}" alt="{{product.name}}"></a>
+                    <div class="card-body">
+                        <h4>{{product.name}}</h4>
+                        <p>RS: {{product.price}}</p>
+                    </div>
+                </div> -->
+            <!-- </div> -->
+                    </div>
+        <div class="mx-auto">
+            {% if products.paginator.num_pages > 1 %}
+            <hr>
+            <div class="text-center">
+                {% for pg in products.paginator.page_range%}
+                    <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %}active{% endif %}">{{pg}}</a>
+                {% endfor%}
+            </div>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+{% endblock %}
